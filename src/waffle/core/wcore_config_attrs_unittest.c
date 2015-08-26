@@ -158,86 +158,11 @@ test_wcore_config_attrs_gles#major_defaults(void **state) { \
     assert_int_equal(ts->actual_attrs.accum_buffer, false); \
 }
 
-static void
-test_wcore_config_attrs_gles1_defaults(void **state) {
-    struct test_state_wcore_config_attrs *ts = *state;
 
-    const int32_t attrib_list[] = {
-        WAFFLE_CONTEXT_API, WAFFLE_CONTEXT_OPENGL_ES1,
-        0,
-    };
+TEST_GLESx_DEFAULTS(1)
+TEST_GLESx_DEFAULTS(2)
+TEST_GLESx_DEFAULTS(3)
 
-    assert_true(wcore_config_attrs_parse(attrib_list, &ts->actual_attrs));
-
-    assert_int_equal(ts->actual_attrs.context_major_version, 1);
-    assert_int_equal(ts->actual_attrs.context_minor_version, 0);
-    assert_int_equal(ts->actual_attrs.context_profile, WAFFLE_NONE);
-
-    assert_int_equal(ts->actual_attrs.red_size, 0);
-    assert_int_equal(ts->actual_attrs.green_size, 0);
-    assert_int_equal(ts->actual_attrs.blue_size, 0);
-    assert_int_equal(ts->actual_attrs.alpha_size, 0);
-    assert_int_equal(ts->actual_attrs.depth_size, 0);
-    assert_int_equal(ts->actual_attrs.stencil_size, 0);
-    assert_int_equal(ts->actual_attrs.sample_buffers, false);
-    assert_int_equal(ts->actual_attrs.samples, 0);
-    assert_int_equal(ts->actual_attrs.double_buffered, true);
-    assert_int_equal(ts->actual_attrs.accum_buffer, false);
-}
-
-static void
-test_wcore_config_attrs_gles2_defaults(void **state) {
-    struct test_state_wcore_config_attrs *ts = *state;
-
-    const int32_t attrib_list[] = {
-        WAFFLE_CONTEXT_API, WAFFLE_CONTEXT_OPENGL_ES2,
-        0,
-    };
-
-    assert_true(wcore_config_attrs_parse(attrib_list, &ts->actual_attrs));
-
-    assert_int_equal(ts->actual_attrs.context_major_version, 2);
-    assert_int_equal(ts->actual_attrs.context_minor_version, 0);
-    assert_int_equal(ts->actual_attrs.context_profile, WAFFLE_NONE);
-
-    assert_int_equal(ts->actual_attrs.red_size, 0);
-    assert_int_equal(ts->actual_attrs.green_size, 0);
-    assert_int_equal(ts->actual_attrs.blue_size, 0);
-    assert_int_equal(ts->actual_attrs.alpha_size, 0);
-    assert_int_equal(ts->actual_attrs.depth_size, 0);
-    assert_int_equal(ts->actual_attrs.stencil_size, 0);
-    assert_int_equal(ts->actual_attrs.sample_buffers, false);
-    assert_int_equal(ts->actual_attrs.samples, 0);
-    assert_int_equal(ts->actual_attrs.double_buffered, true);
-    assert_int_equal(ts->actual_attrs.accum_buffer, false);
-}
-
-static void
-test_wcore_config_attrs_gles3_defaults(void **state) {
-    struct test_state_wcore_config_attrs *ts = *state;
-
-    const int32_t attrib_list[] = {
-        WAFFLE_CONTEXT_API, WAFFLE_CONTEXT_OPENGL_ES3,
-        0,
-    };
-
-    assert_true(wcore_config_attrs_parse(attrib_list, &ts->actual_attrs));
-
-    assert_int_equal(ts->actual_attrs.context_major_version, 3);
-    assert_int_equal(ts->actual_attrs.context_minor_version, 0);
-    assert_int_equal(ts->actual_attrs.context_profile, WAFFLE_NONE);
-
-    assert_int_equal(ts->actual_attrs.red_size, 0);
-    assert_int_equal(ts->actual_attrs.green_size, 0);
-    assert_int_equal(ts->actual_attrs.blue_size, 0);
-    assert_int_equal(ts->actual_attrs.alpha_size, 0);
-    assert_int_equal(ts->actual_attrs.depth_size, 0);
-    assert_int_equal(ts->actual_attrs.stencil_size, 0);
-    assert_int_equal(ts->actual_attrs.sample_buffers, false);
-    assert_int_equal(ts->actual_attrs.samples, 0);
-    assert_int_equal(ts->actual_attrs.double_buffered, true);
-    assert_int_equal(ts->actual_attrs.accum_buffer, false);
-}
 #undef TEST_GLESx_DEFAULTS
 
 static void

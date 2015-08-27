@@ -382,6 +382,25 @@ test_wcore_config_attrs_gles10(void **state) {
     assert_int_equal(ts->actual_attrs.context_minor_version, 0);
 }
 
+#define TEST_GLESxy(major, minor) \
+static void \
+test_wcore_config_attrs_gles#major#minor(void **state) { \
+    struct test_state_wcore_config_attrs *ts = *state; \
+ \
+    const int32_t attrib_list[] = { \
+        WAFFLE_CONTEXT_API,             WAFFLE_CONTEXT_OPENGL_ES#major, \
+        WAFFLE_CONTEXT_MAJOR_VERSION,   major, \
+        WAFFLE_CONTEXT_MINOR_VERSION,   minor, \
+        0, \
+    }; \
+ \
+    assert_true(wcore_config_attrs_parse(attrib_list, &ts->actual_attrs)); \
+    assert_int_equal(ts->actual_attrs.context_major_version, major); \
+    assert_int_equal(ts->actual_attrs.context_minor_version, minor); \
+}
+
+#undef TEST_GLESxy
+
 static void
 test_wcore_config_attrs_gles11(void **state) {
     struct test_state_wcore_config_attrs *ts = *state;

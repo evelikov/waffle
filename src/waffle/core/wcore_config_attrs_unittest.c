@@ -392,6 +392,25 @@ TEST_GLESxy(3, 1)
 
 #undef TEST_GLESxy
 
+
+#define TEST_GLESx_WITH_VERSIONyz(api_major, major, minor) \
+static void \
+test_wcore_config_attrs_gles#api_major_with_version_#major#minor(void **state) { \
+    struct test_state_wcore_config_attrs *ts = *state; \
+ \
+    const int32_t attrib_list[] = { \
+        WAFFLE_CONTEXT_API,             WAFFLE_CONTEXT_OPENGL_ES#api_major, \
+        WAFFLE_CONTEXT_MAJOR_VERSION,   major, \
+        WAFFLE_CONTEXT_MINOR_VERSION,   minor, \
+        0, \
+    }; \
+ \
+    assert_false(wcore_config_attrs_parse(attrib_list, &ts->actual_attrs)); \
+    assert_int_equal(wcore_error_get_code(), WAFFLE_ERROR_BAD_ATTRIBUTE); \
+}
+
+#undef TEST_GLESx_WITH_VERSIONyz
+
 static void
 test_wcore_config_attrs_gles12_is_bad(void **state) {
     struct test_state_wcore_config_attrs *ts = *state;

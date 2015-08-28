@@ -32,7 +32,7 @@ install:
 
 
 script:
-  - nohup weston
+  - nohup weston &
   - mkdir -p build && cd build
   - cmake .. -DCMAKE_BINARY_DIR=$(CURDIR)/debian/tmp -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Dwaffle_has_gbm=1 -Dwaffle_has_glx=1 -Dwaffle_has_x11_egl=1 -Dwaffle_has_wayland=1 -Dwaffle_build_manpages=1 -Dwaffle_build_htmldocs=1 -Dwaffle_build_examples=1
   - make && make check && make check-func && make package

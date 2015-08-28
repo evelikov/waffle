@@ -19,6 +19,7 @@ addons:
 branches:
     only:
       - wip/ci
+      - coverity_scan
 # XXX: tweak this later
 
 

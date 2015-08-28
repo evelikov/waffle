@@ -29,11 +29,13 @@ language: c
 
 matrix:
   include:
-  - compiler: gcc
+  - os: linux
+    compiler: gcc
     env:
     - APT_PACKAGES="coreutils weston libegl1-mesa-dev libgl1-mesa-dev libgbm-dev libwayland-dev libx11-dev docbook-xsl xsltproc"
     - CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -Dwaffle_build_manpages=1 -Dwaffle_build_htmldocs=1"
-  - compiler: clang
+  - os: linux
+    compiler: clang
     env:
     - APT_PACKAGES="coreutils weston libegl1-mesa-dev libgl1-mesa-dev libgbm-dev libwayland-dev libx11-dev"
     - CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
@@ -59,8 +61,3 @@ script:
   - cmake --build build --use-stderr --target check -- -k
   - cmake --build build --use-stderr --target check-func -- -k
   - cmake --build build --use-stderr --target package -- -k
-
-os:
-  - linux
-#  - osx
-# XXX: Android, Windows (cross-compile/native mingw64, msvc)

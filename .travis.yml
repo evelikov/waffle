@@ -1,0 +1,44 @@
+branches:
+    only:
+      - wip/ci
+# XXX: tweak this later
+
+
+language: c
+# Android: C++
+# OSx: XXX ?
+
+compiler:
+  - gcc
+  - clang
+# Windows: cross/native mingw64 / msvc 2013 r4+
+
+
+before_install:
+  - "export DISPLAY=:99.0"
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x24"
+  - "nohup weston"
+
+
+install:
+  - sudo apt-get update
+# For core waffle
+  - sudo apt-get install binutils cmake debhelper pkgconfig
+# For the documentation
+  - sudo apt-get install docbook-xsl xsltproc
+# For the gbm, glx, x11_egl and wayland backends
+  - sudo apt-get install libegl1-mesa-dev libgl1-mesa-dev libgbm-dev libwayland-dev libx11-dev
+# For testing the wayland backend
+  - sudo apt-get install coreutils weston
+
+
+script:
+  - mkdir -p build && cd build
+  - cmake .. -DCMAKE_BINARY_DIR=$(CURDIR)/debian/tmp -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Dwaffle_has_gbm=1 -Dwaffle_has_glx=1 -Dwaffle_has_x11_egl=1 -Dwaffle_has_wayland=1 -Dwaffle_build_manpages=1 -Dwaffle_build_htmldocs=1 -Dwaffle_build_examples=1
+  - make && make check && make check-func && make package
+
+
+os:
+  - linux
+#  - osx
+# XXX: Android, Windows (cross-compile/native mingw64, msvc)

@@ -1,3 +1,21 @@
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "jOK0QJ2tA5FguCn1k1c7EyelJikZm9oD8Zf2wdhyNWl3sLBomBRqadRkZ58jMhoY3WWuwNDYOOrxQTYrS6dySqbmCTpP6oARr76STMBxLhnboSEyntyVjPBT7FTDCgwVIMWv7KdvQNyBi4TT864rCiMPREcCj0CqMwGevlXbVN98hmRYNj5OqFEItn6DD71AUGqgjdaCdsIEQvbbfY4DNWaI4XILh5xDrHNb2y87FqDHXVrmd4qcQAdbMWpXyoCnmnbAxzWE9Nz0/xRkwrCi3QWoAm5YoQS4oVHV2MMpHRu8Lz6C198fgc1cvIq8seeCMG/8pbZMCf6D/9lOWP8Dg5ZJTdVFMbPd2ba1P4l+xw/4Ryy9LOf+pagIShz4NGQw3OkBUaXrdb46963iKxI+XMCLgSi0+SCWMhAXSoH4znonZd1YuqjBnoHKEIKA4pUrARVC/LCVo5vmuKEc6lq7zmTJN0cCKGXrFiTsqro0xo0PTmLI4hvsWmIYvKzwxIKoZNmuGrMsGLhv/+qlYAz//sPDJqdKKX3PZcjFm2lbuSOT4EzmLCFK3diuMHKXe3rtLXEHLCWsaoizi3138hTEL9R/dJ5bcnepoZnbBjzdYBBZQ9IRtJssNaJlqhddL42HraRAkViRBqx2tZndpAi3WjjFd2jsiZf1y2PPi0AdRmk="
+
+
+addons:
+  coverity_scan:
+    project:
+      name: "evelikov/waffle"
+      description: "Build submitted via Travis CI"
+    notification_email: emil.l.velikov@gmail.com
+    build_command_prepend: "rm -rf build && cmake -H. -Bbuild $CMAKE_OPTIONS"
+    build_command:   "cmake --build build --use-stderr -- -k"
+    branch_pattern: coverity_scan
+
+
 branches:
     only:
       - wip/ci
@@ -7,11 +25,6 @@ branches:
 language: c
 # Android: C++
 # OSx: XXX ?
-
-
-env:
-  global:
-  - MAKEFLAGS=-j2
 
 
 matrix:

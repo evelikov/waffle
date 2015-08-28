@@ -249,6 +249,6 @@ wegl_config_destroy(struct wcore_config *wc_config)
         return true;
 
     result &= wcore_config_teardown(wc_config);
-    free(config);
+    free(wc_config);
     return result;
 }

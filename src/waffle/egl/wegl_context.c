@@ -232,7 +232,7 @@ wegl_context_destroy(struct wcore_context *wc_ctx)
     if (wc_ctx) {
         struct wegl_context *ctx = wegl_context(wc_ctx);
         result = wegl_context_teardown(ctx);
-        free(ctx);
+        free(wc_ctx);
     }
     return result;
 }

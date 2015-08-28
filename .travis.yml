@@ -22,7 +22,7 @@ before_install:
 install:
   - sudo apt-get update
 # For core waffle
-  - sudo apt-get install binutils cmake debhelper pkgconfig
+  - sudo apt-get install binutils cmake debhelper pkg-config
 # For the documentation
   - sudo apt-get install docbook-xsl xsltproc
 # For the gbm, glx, x11_egl and wayland backends

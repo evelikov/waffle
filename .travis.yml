@@ -61,3 +61,15 @@ script:
   - cmake --build build --use-stderr --target check -- -k
   - cmake --build build --use-stderr --target check-func -- -k
   - cmake --build build --use-stderr --target package -- -k
+  - build/bin/wflinfo -p glx -a gl || echo Failed
+  - build/bin/wflinfo -p glx -a gles1 || echo Failed
+  - build/bin/wflinfo -p glx -a gles2 || echo Failed
+  - build/bin/wflinfo -p glx -a gles3 || echo Failed
+  - build/bin/wflinfo -p x11_egl -a gl || echo Failed
+  - build/bin/wflinfo -p x11_egl -a gles1 || echo Failed
+  - build/bin/wflinfo -p x11_egl -a gles2 || echo Failed
+  - build/bin/wflinfo -p x11_egl -a gles3 || echo Failed
+  - build/bin/wflinfo -p gbm -a gl || echo Failed
+  - build/bin/wflinfo -p gbm -a gles1 || echo Failed
+  - build/bin/wflinfo -p gbm -a gles2 || echo Failed
+  - build/bin/wflinfo -p gbm -a gles3 || echo Failed

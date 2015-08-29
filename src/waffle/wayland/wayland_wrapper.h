@@ -66,6 +66,10 @@ int
 (*wfl_wl_proxy_add_listener)(struct wl_proxy *proxy,
                              void (**implementation)(void), void *data);
 
+struct wl_proxy *
+(*wfl_wl_proxy_create)(struct wl_proxy *factory,
+                       const struct wl_interface *interface);
+
 void
 (*wfl_wl_proxy_marshal)(struct wl_proxy *p, uint32_t opcode, ...);
 
@@ -90,5 +94,6 @@ struct wl_proxy *
 #define wl_display_roundtrip (*wfl_wl_display_roundtrip)
 #define wl_proxy_destroy (*wfl_wl_proxy_destroy)
 #define wl_proxy_add_listener (*wfl_wl_proxy_add_listener)
+#define wl_proxy_create (*wfl_wl_proxy_create)
 #define wl_proxy_marshal (*wfl_wl_proxy_marshal)
 #define wl_proxy_marshal_constructor (*wfl_wl_proxy_marshal_constructor)

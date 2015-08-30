@@ -117,15 +117,19 @@ wegl_display_supports_context_api(struct wcore_display *wc_dpy,
 
     switch (waffle_context_api) {
         case WAFFLE_CONTEXT_OPENGL:
+            // EGL >= 1.4, see check_context_attrs(), eglQueryString(display, EGL_CLIENT_APIS)
             waffle_dl = WAFFLE_DL_OPENGL;
             break;
         case WAFFLE_CONTEXT_OPENGL_ES1:
+            // EGL >= 1.2, see check_context_attrs(), eglQueryString(display, EGL_CLIENT_APIS)
             waffle_dl = WAFFLE_DL_OPENGL_ES1;
             break;
         case WAFFLE_CONTEXT_OPENGL_ES2:
+            // EGL >= 1.3, see check_context_attrs(), eglQueryString(display, EGL_CLIENT_APIS)
             waffle_dl = WAFFLE_DL_OPENGL_ES2;
             break;
         case WAFFLE_CONTEXT_OPENGL_ES3:
+            // EGL > = 1.4 implied by the extension below, see check_context_attrs(), eglQueryString(display, EGL_CLIENT_APIS)
             if (!dpy->KHR_create_context)
                 return false;
 

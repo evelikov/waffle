@@ -123,17 +123,11 @@ glx_display_supports_context_api(struct wcore_display *wc_self,
         case WAFFLE_CONTEXT_OPENGL:
             return true;
         case WAFFLE_CONTEXT_OPENGL_ES1:
-            return self->EXT_create_context_es_profile
-                   && linux_platform_dl_can_open(plat->linux,
-                                                 WAFFLE_DL_OPENGL_ES1);
+            return self->EXT_create_context_es_profile;
         case WAFFLE_CONTEXT_OPENGL_ES2:
-            return self->EXT_create_context_es2_profile
-                   && linux_platform_dl_can_open(plat->linux,
-                                                 WAFFLE_DL_OPENGL_ES2);
+            return self->EXT_create_context_es2_profile;
         case WAFFLE_CONTEXT_OPENGL_ES3:
-            return self->EXT_create_context_es_profile
-                   && linux_platform_dl_can_open(plat->linux,
-                                                 WAFFLE_DL_OPENGL_ES3);
+            return self->EXT_create_context_es_profile;
         default:
             wcore_error_internal("waffle_context_api has bad value %#x",
                                  context_api);

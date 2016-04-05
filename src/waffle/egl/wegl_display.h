@@ -37,6 +37,8 @@ struct wcore_display;
 struct wegl_display {
     struct wcore_display wcore;
     EGLDisplay egl;
+
+    bool supports_opengl;
     bool KHR_create_context;
 };
 

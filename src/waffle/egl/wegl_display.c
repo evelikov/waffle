@@ -24,6 +24,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <assert.h>
+#include <string.h>
 
 #include "wcore_error.h"
 #include "wcore_platform.h"
@@ -34,22 +35,46 @@
 #include "wegl_platform.h"
 
 static bool
-get_extensions(struct wegl_display *dpy)
+parse_version_extensions(struct wegl_display *dpy, EGLint major, EGLint minor)
 {
     struct wegl_platform *plat = wegl_platform(dpy->wcore.platform);
-    const char *extensions = plat->eglQueryString(dpy->egl, EGL_EXTENSIONS);
+    const char *apis = plat->eglQueryString(dpy->egl, EGL_CLIENT_APIS);
+    const char *extensions;
 
-    if (!extensions) {
-        wegl_emit_error(plat, "eglQueryString(EGL_EXTENSIONS)");
+    // Our minimum requirement - EGL 1.2 ...
+    if (major != 1 || minor < 2) {
+        wcore_errorf(WAFFLE_ERROR_UNSUPPORTED_ON_PLATFORM,
+                     "EGL 1.2 or later is required");
         return false;
     }
 
-    // waffle_is_extension_in_string() resets the error state. That's ok,
-    // however, because if we've reached this point then no error should be
-    // pending emission.
-    assert(wcore_error_get_code() == 0);
+    // ... plus working eglQueryString(EGL_CLIENT_APIS) and "OpenGL_ES" in the
+    // APIs string.
+    if (!apis || !strstr(apis, "OpenGL_ES")) {
+        wegl_emit_error(plat, "eglQueryString(EGL_CLIENT_APIS)");
+        return false;
+    }
 
-    dpy->KHR_create_context = waffle_is_extension_in_string(extensions, "EGL_KHR_create_context");
+    // Optional bits, if we're running EGL 1.4 ...
+    if (major == 1 && minor >= 4) {
+        extensions = plat->eglQueryString(dpy->egl, EGL_EXTENSIONS);
+
+        // Should never fail.
+        if (!extensions) {
+            wegl_emit_error(plat, "eglQueryString(EGL_EXTENSIONS)");
+            return false;
+        }
+
+        // waffle_is_extension_in_string() resets the error state. That's ok,
+        // however, because if we've reached this point then no error should be
+        // pending emission.
+        assert(wcore_error_get_code() == 0);
+
+        dpy->KHR_create_context = waffle_is_extension_in_string(extensions, "EGL_KHR_create_context");
+
+        // ... and OpenGL is in the APIs string, then we should be fine.
+        dpy->supports_opengl = waffle_is_extension_in_string(apis, "OpenGL");
+    }
 
     return true;
 }
@@ -81,7 +106,7 @@ wegl_display_init(struct wegl_display *dpy,
         goto fail;
     }
 
-    ok = get_extensions(dpy);
+    ok = parse_version_extensions(dpy, major, minor);
     if (!ok)
         goto fail;
 
@@ -112,30 +137,18 @@ wegl_display_supports_context_api(struct wcore_display *wc_dpy,
                                   int32_t waffle_context_api)
 {
     struct wegl_display *dpy = wegl_display(wc_dpy);
-    struct wcore_platform *wc_plat = dpy->wcore.platform;
-    int32_t waffle_dl;
 
     switch (waffle_context_api) {
         case WAFFLE_CONTEXT_OPENGL:
-            waffle_dl = WAFFLE_DL_OPENGL;
-            break;
+            return dpy->supports_opengl;
         case WAFFLE_CONTEXT_OPENGL_ES1:
-            waffle_dl = WAFFLE_DL_OPENGL_ES1;
-            break;
         case WAFFLE_CONTEXT_OPENGL_ES2:
-            waffle_dl = WAFFLE_DL_OPENGL_ES2;
-            break;
+            return true;
         case WAFFLE_CONTEXT_OPENGL_ES3:
-            if (!dpy->KHR_create_context)
-                return false;
-
-            waffle_dl = WAFFLE_DL_OPENGL_ES3;
-            break;
+            return dpy->KHR_create_context;
         default:
             wcore_error_internal("waffle_context_api has bad value %#x",
                                  waffle_context_api);
             return false;
     }
-
-    return wc_plat->vtbl->dl_can_open(wc_plat, waffle_dl);
 }

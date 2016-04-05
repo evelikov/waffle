@@ -147,8 +147,7 @@ wegl_display_supports_context_api(struct wcore_display *wc_dpy,
         case WAFFLE_CONTEXT_OPENGL_ES3:
             return dpy->KHR_create_context;
         default:
-            wcore_error_internal("waffle_context_api has bad value %#x",
-                                 waffle_context_api);
+            assert(false);
             return false;
     }
 }

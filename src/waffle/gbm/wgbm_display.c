@@ -46,14 +46,10 @@ wgbm_display_destroy(struct wcore_display *wc_self)
     struct wgbm_display *self = wgbm_display(wc_self);
     struct wcore_platform *wc_plat = wc_self->platform;
     struct wgbm_platform *plat = wgbm_platform(wegl_platform(wc_plat));
-    bool ok = true;
+    bool ok;
     int fd;
 
-    if (!self)
-        return ok;
-
-
-    ok &= wegl_display_teardown(&self->wegl);
+    ok = wegl_display_teardown(&self->wegl);
 
     if (self->gbm_device) {
         fd = plat->gbm_device_get_fd(self->gbm_device);

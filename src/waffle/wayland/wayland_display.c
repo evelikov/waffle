@@ -45,12 +45,9 @@ bool
 wayland_display_destroy(struct wcore_display *wc_self)
 {
     struct wayland_display *self = wayland_display(wc_self);
-    bool ok = true;
+    bool ok;
 
-    if (!self)
-        return ok;
-
-    ok &= wegl_display_teardown(&self->wegl);
+    ok = wegl_display_teardown(&self->wegl);
 
     if (self->wl_display)
         wl_display_disconnect(self->wl_display);

@@ -37,12 +37,9 @@ bool
 glx_display_destroy(struct wcore_display *wc_self)
 {
     struct glx_display *self = glx_display(wc_self);
-    bool ok = true;
+    bool ok;
 
-    if (!self)
-        return ok;
-
-    ok &= x11_display_teardown(&self->x11);
+    ok = x11_display_teardown(&self->x11);
     ok &= wcore_display_teardown(&self->wcore);
     free(self);
     return ok;

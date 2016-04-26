@@ -40,9 +40,6 @@ wgl_display_destroy(struct wcore_display *wc_self)
     struct wgl_display *self = wgl_display(wc_self);
     bool ok = true;
 
-    if (!self)
-        return true;
-
     if (self->hWnd) {
         if (self->hglrc) {
             ok &= wglDeleteContext(self->hglrc);

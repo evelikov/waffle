@@ -35,12 +35,9 @@ bool
 xegl_display_destroy(struct wcore_display *wc_self)
 {
     struct xegl_display *self = xegl_display(wc_self);
-    bool ok = true;
+    bool ok;
 
-    if (!self)
-        return ok;
-
-    ok &= wegl_display_teardown(&self->wegl);
+    ok = wegl_display_teardown(&self->wegl);
     ok &= x11_display_teardown(&self->x11);
     free(self);
     return ok;

@@ -69,9 +69,6 @@ droid_display_disconnect(struct wcore_display *wc_self)
     struct droid_display *self = droid_display(wc_self);
     bool ok = true;
 
-    if (!self)
-        return true;
-
     if (self->pSFContainer)
         droid_deinit_gl(self->pSFContainer);
 

@@ -58,8 +58,6 @@ x11_display_teardown(struct x11_display *self)
 {
     int error = 0;
 
-    assert(self);
-
     if (!self->xlib)
        return !error;
 

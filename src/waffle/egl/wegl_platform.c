@@ -56,15 +56,14 @@ wegl_platform_teardown(struct wegl_platform *self)
 bool
 wegl_platform_init(struct wegl_platform *self)
 {
-    bool ok = true;
-
+    // On failure the caller of wegl_platform_init will trigger it's own
+    // destruction which will execute wegl_platform_teardown.
     self->eglHandle = dlopen(libEGL_filename, RTLD_LAZY | RTLD_LOCAL);
     if (!self->eglHandle) {
         wcore_errorf(WAFFLE_ERROR_FATAL,
                      "dlopen(\"%s\") failed: %s",
                      libEGL_filename, dlerror());
-        ok = false;
-        goto error;
+        return false;
     }
 
 #define OPTIONAL_EGL_SYMBOL(function)                                  \
@@ -73,11 +72,10 @@ wegl_platform_init(struct wegl_platform *self)
 #define RETRIEVE_EGL_SYMBOL(function)                                  \
     OPTIONAL_EGL_SYMBOL(function)                                      \
     if (!self->function) {                                             \
-        wcore_errorf(WAFFLE_ERROR_FATAL,                             \
+        wcore_errorf(WAFFLE_ERROR_FATAL,                               \
                      "dlsym(\"%s\", \"" #function "\") failed: %s",    \
                      libEGL_filename, dlerror());                      \
-        ok = false;                                                    \
-        goto error;                                                    \
+        return false;                                                  \
     }
 
     OPTIONAL_EGL_SYMBOL(eglCreateImageKHR);
@@ -110,8 +108,5 @@ wegl_platform_init(struct wegl_platform *self)
 #undef OPTIONAL_EGL_SYMBOL
 #undef RETRIEVE_EGL_SYMBOL
 
-error:
-    // On failure the caller of wegl_platform_init will trigger it's own
-    // destruction which will execute wegl_platform_teardown.
-    return ok;
+    return true;
 }

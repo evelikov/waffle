@@ -262,12 +262,9 @@ bool
 wegl_config_destroy(struct wcore_config *wc_config)
 {
     struct wegl_config *config = wegl_config(wc_config);
-    bool result = true;
+    bool result;
 
-    if (!config)
-        return true;
-
-    result &= wcore_config_teardown(wc_config);
+    result = wcore_config_teardown(wc_config);
     free(config);
     return result;
 }

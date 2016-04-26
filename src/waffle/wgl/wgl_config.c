@@ -44,9 +44,6 @@ wgl_config_destroy(struct wcore_config *wc_self)
     struct wgl_config *self = wgl_config(wc_self);
     bool ok = true;
 
-    if (!self)
-        return true;
-
     if (self->window)
         ok &= wgl_window_priv_destroy(&self->window->wcore);
 

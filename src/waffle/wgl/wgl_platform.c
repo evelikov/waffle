@@ -45,9 +45,6 @@ wgl_platform_destroy(struct wcore_platform *wc_self)
     struct wgl_platform *self = wgl_platform(wc_self);
     bool ok = true;
 
-    if (!self)
-        return true;
-
     if (self->dl_gl)
         ok &= wgl_dl_close(wc_self);
 

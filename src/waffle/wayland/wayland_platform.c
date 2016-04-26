@@ -56,9 +56,6 @@ wayland_platform_destroy(struct wcore_platform *wc_self)
     bool ok = true;
     int error;
 
-    if (!self)
-        return true;
-
     unsetenv("EGL_PLATFORM");
 
     if (self->linux)

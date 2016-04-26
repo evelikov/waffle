@@ -48,9 +48,6 @@ xegl_platform_destroy(struct wcore_platform *wc_self)
     struct xegl_platform *self = xegl_platform(wegl_platform(wc_self));
     bool ok = true;
 
-    if (!self)
-        return true;
-
     unsetenv("EGL_PLATFORM");
 
     if (self->linux)

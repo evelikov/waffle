@@ -46,9 +46,6 @@ droid_platform_destroy(struct wcore_platform *wc_self)
     struct droid_platform *self = droid_platform(wc_self);
     bool ok = true;
 
-    if (!self)
-        return true;
-
     if (self->linux)
         ok &= linux_platform_destroy(self->linux);
 

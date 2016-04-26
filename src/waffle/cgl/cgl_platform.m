@@ -42,9 +42,6 @@ cgl_platform_destroy(struct wcore_platform *wc_self)
     struct cgl_platform *self = cgl_platform(wc_self);
     bool ok = true;
 
-    if (!self)
-        return ok;
-
     if (self->dl_gl)
         ok &= cgl_dl_close(&self->wcore);
 

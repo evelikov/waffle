@@ -79,9 +79,6 @@ wgbm_platform_destroy(struct wcore_platform *wc_self)
 {
     struct wgbm_platform *self = wgbm_platform(wegl_platform(wc_self));
 
-    if (!self)
-        return true;
-
     bool ok = wgbm_platform_teardown(self);
     free(self);
     return ok;

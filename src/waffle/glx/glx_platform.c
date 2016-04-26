@@ -48,9 +48,6 @@ glx_platform_destroy(struct wcore_platform *wc_self)
     bool ok = true;
     int error = 0;
 
-    if (!self)
-        return true;
-
     if (self->linux)
         ok &= linux_platform_destroy(self->linux);
 

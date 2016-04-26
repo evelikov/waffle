@@ -123,6 +123,8 @@ wayland_window_create(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
+    wcore_window_init(&self->wegl.wcore, wc_config);
+
     if (!dpy->wl_compositor) {
         wcore_errorf(WAFFLE_ERROR_UNKNOWN, "wayland compositor not found");
         goto error;

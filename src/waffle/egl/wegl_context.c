@@ -185,7 +185,6 @@ wegl_context_create(struct wcore_platform *wc_plat,
     struct wegl_context *ctx;
     struct wegl_config *config = wegl_config(wc_config);
     struct wegl_context *share_ctx = wegl_context(wc_share_ctx);
-    bool ok;
 
     (void) wc_plat;
 
@@ -193,22 +192,18 @@ wegl_context_create(struct wcore_platform *wc_plat,
     if (!ctx)
         return NULL;
 
-    ok = wcore_context_init(&ctx->wcore, &config->wcore);
-    if (!ok)
-        goto fail;
+    wcore_context_init(&ctx->wcore, &config->wcore);
 
     ctx->egl = create_real_context(config,
                                    share_ctx
                                        ? share_ctx->egl
                                        : EGL_NO_CONTEXT);
-    if (ctx->egl == EGL_NO_CONTEXT)
-        goto fail;
+    if (ctx->egl == EGL_NO_CONTEXT) {
+        wegl_context_destroy(&ctx->wcore);
+        return NULL;
+    }
 
     return &ctx->wcore;
-
-fail:
-    wegl_context_destroy(&ctx->wcore);
-    return NULL;
 }
 
 bool

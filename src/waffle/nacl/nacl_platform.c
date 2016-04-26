@@ -66,26 +66,21 @@ struct wcore_platform*
 nacl_platform_create(void)
 {
     struct nacl_platform *self;
-    bool ok = true;
 
     self = wcore_calloc(sizeof(*self));
     if (self == NULL)
         return NULL;
 
-    ok = wcore_platform_init(&self->wcore);
-    if (!ok)
-        goto error;
+    wcore_platform_init(&self->wcore);
 
     self->nacl = nacl_container_init();
-    if (!self->nacl)
-        goto error;
+    if (!self->nacl) [
+        nacl_platform_destroy(&self->wcore);
+        return NULL;
+    }
 
     self->wcore.vtbl = &nacl_platform_vtbl;
     return &self->wcore;
-
-error:
-    nacl_platform_destroy(&self->wcore);
-    return NULL;
 }
 
 static const struct wcore_platform_vtbl nacl_platform_vtbl = {

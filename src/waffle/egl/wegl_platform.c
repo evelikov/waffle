@@ -56,11 +56,7 @@ wegl_platform_teardown(struct wegl_platform *self)
 bool
 wegl_platform_init(struct wegl_platform *self)
 {
-    bool ok;
-
-    ok = wcore_platform_init(&self->wcore);
-    if (!ok)
-        goto error;
+    bool ok = true;
 
     self->eglHandle = dlopen(libEGL_filename, RTLD_LAZY | RTLD_LOCAL);
     if (!self->eglHandle) {

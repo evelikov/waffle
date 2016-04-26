@@ -141,10 +141,9 @@ struct wcore_platform {
     const struct wcore_platform_vtbl *vtbl;
 };
 
-static inline bool
+static inline void
 wcore_platform_init(struct wcore_platform *self)
 {
     (void) self;
     assert(self);
-    return true;
 }

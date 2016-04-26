@@ -124,6 +124,8 @@ wgbm_display_connect(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
+    wcore_display_init(&self->wegl.wcore, wc_plat);
+
     if (name == NULL) {
         name = getenv("WAFFLE_GBM_DEVICE");
     }

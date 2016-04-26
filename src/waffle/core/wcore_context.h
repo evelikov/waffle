@@ -53,7 +53,7 @@ wcore_context(struct waffle_context *ctx) {
     return (struct wcore_context*) ctx;
 }
 
-static inline bool
+static inline void
 wcore_context_init(struct wcore_context *self,
                    struct wcore_config *config)
 {
@@ -62,6 +62,4 @@ wcore_context_init(struct wcore_context *self,
 
     self->api.display_id = config->display->api.display_id;
     self->display = config->display;
-
-    return true;
 }

@@ -69,15 +69,12 @@ struct wcore_platform*
 glx_platform_create(void)
 {
     struct glx_platform *self;
-    bool ok = true;
 
     self = wcore_calloc(sizeof(*self));
     if (self == NULL)
         return NULL;
 
-    ok = wcore_platform_init(&self->wcore);
-    if (!ok)
-        goto error;
+    wcore_platform_init(&self->wcore);
 
     self->glxHandle = dlopen(libGL_filename, RTLD_LAZY | RTLD_LOCAL);
     if (!self->glxHandle) {

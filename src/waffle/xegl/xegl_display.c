@@ -55,6 +55,8 @@ xegl_display_connect(
     if (self == NULL)
         return NULL;
 
+    wcore_display_init(&self->wegl.wcore, wc_plat);
+
     ok = x11_display_init(&self->x11, name);
     if (!ok)
         goto error;

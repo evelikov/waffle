@@ -68,6 +68,8 @@ xegl_platform_create(void)
     if (self == NULL)
         return NULL;
 
+    wcore_platform_init(&self->wegl.wcore);
+
     ok = wegl_platform_init(&self->wegl);
     if (!ok)
         goto error;

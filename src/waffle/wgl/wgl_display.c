@@ -206,9 +206,7 @@ wgl_display_connect(struct wcore_platform *wc_plat,
     if (!self)
         return NULL;
 
-    ok = wcore_display_init(&self->wcore, wc_plat);
-    if (!ok)
-        goto error;
+    wcore_display_init(&self->wcore, wc_plat);
 
     ok = wgl_display_create_window(wgl_platform(wc_plat), self);
     if (!ok)

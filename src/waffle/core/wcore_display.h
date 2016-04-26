@@ -56,7 +56,7 @@ wcore_display(struct waffle_display *dpy) {
     return (struct wcore_display*) dpy;
 }
 
-bool
+void
 wcore_display_init(struct wcore_display *self,
                    struct wcore_platform *platform);
 

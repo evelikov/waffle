@@ -63,6 +63,8 @@ droid_window_create(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
+    wcore_window_init(&self->wegl.wcore, wc_config);
+
     self->pANWContainer = droid_create_surface(width, height,
                                                dpy->pSFContainer);
     if (!self->pANWContainer)

@@ -53,17 +53,13 @@ nacl_context_create(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
-    ok = wcore_context_init(&self->wcore, wc_config);
-    if (!ok)
-        goto error;
+    wcore_context_init(&self->wcore, wc_config);
 
     ok = nacl_container_context_init(platform->nacl, config);
-    if (!ok)
-        goto error;
+    if (!ok) {
+        nacl_context_destroy(&self->wcore);
+        return NULL;
+    }
 
     return &self->wcore;
-
-error:
-    nacl_context_destroy(&self->wcore);
-    return NULL;
 }

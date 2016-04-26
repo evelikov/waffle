@@ -82,6 +82,8 @@ wgbm_window_create(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
+    wcore_window_init(&self->wegl.wcore, wc_config);
+
     gbm_format = wgbm_config_get_gbm_format(wc_plat, wc_config->display,
                                             wc_config);
     assert(gbm_format != 0);

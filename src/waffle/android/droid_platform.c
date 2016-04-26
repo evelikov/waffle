@@ -57,26 +57,21 @@ struct wcore_platform*
 droid_platform_create(void)
 {
     struct droid_platform *self;
-    bool ok = true;
 
     self = wcore_calloc(sizeof(*self));
     if (self == NULL)
         return NULL;
 
-    ok = wcore_platform_init(&self->wcore);
-    if (!ok)
-        goto error;
+    wcore_platform_init(&self->wcore);
 
     self->linux = linux_platform_create();
-    if (!self->linux)
-        goto error;
+    if (!self->linux) {
+        droid_platform_destroy(&self->wcore);
+        return NULL;
+    }
 
     self->wcore.vtbl = &droid_platform_vtbl;
     return &self->wcore;
-
-error:
-    droid_platform_destroy(&self->wcore);
-    return NULL;
 }
 
 static bool

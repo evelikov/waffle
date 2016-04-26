@@ -59,7 +59,7 @@ wcore_config(struct waffle_config *cfg) {
     return (struct wcore_config*) cfg;
 }
 
-static inline bool
+static inline void
 wcore_config_init(struct wcore_config *self,
                   struct wcore_display *display,
                   const struct wcore_config_attrs *attrs)
@@ -70,8 +70,6 @@ wcore_config_init(struct wcore_config *self,
     self->api.display_id = display->api.display_id;
     self->display = display;
     memcpy(&self->attrs, attrs, sizeof(*attrs));
-
-    return true;
 }
 
 #ifdef __cplusplus

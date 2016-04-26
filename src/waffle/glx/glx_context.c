@@ -220,25 +220,20 @@ glx_context_create(struct wcore_platform *wc_plat,
     struct glx_context *self;
     struct glx_config *config = glx_config(wc_config);
     struct glx_context *share_ctx = glx_context(wc_share_ctx);
-    bool ok = true;
 
     self = wcore_calloc(sizeof(*self));
     if (self == NULL)
         return NULL;
 
-    ok = wcore_context_init(&self->wcore, wc_config);
-    if (!ok)
-        goto error;
+    wcore_context_init(&self->wcore, wc_config);
 
     self->glx = glx_context_create_native(config, share_ctx);
-    if (!self->glx)
-        goto error;
+    if (!self->glx) {
+        glx_context_destroy(&self->wcore);
+        return NULL;
+    }
 
     return &self->wcore;
-
-error:
-    glx_context_destroy(&self->wcore);
-    return NULL;
 }
 
 union waffle_native_context*

@@ -41,11 +41,6 @@ wegl_window_init(struct wegl_window *window,
     struct wegl_display *dpy = wegl_display(wc_config->display);
     struct wegl_platform *plat = wegl_platform(dpy->wcore.platform);
     EGLint egl_render_buffer;
-    bool ok;
-
-    ok = wcore_window_init(&window->wcore, wc_config);
-    if (!ok)
-        goto fail;
 
     if (config->wcore.attrs.double_buffered)
         egl_render_buffer = EGL_BACK_BUFFER;
@@ -64,14 +59,11 @@ wegl_window_init(struct wegl_window *window,
                                                attrib_list);
     if (!window->egl) {
         wegl_emit_error(plat, "eglCreateWindowSurface");
-        goto fail;
+        wegl_window_teardown(window);
+        return false;
     }
 
     return true;
-
-fail:
-    wegl_window_teardown(window);
-    return false;
 }
 
 bool

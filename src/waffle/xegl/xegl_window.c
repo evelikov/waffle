@@ -78,6 +78,8 @@ xegl_window_create(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
+    wcore_window_init(&self->wegl.wcore, wc_config);
+
     ok = plat->eglGetConfigAttrib(dpy->wegl.egl,
                                   config->egl,
                                   EGL_NATIVE_VISUAL_ID,

@@ -95,7 +95,6 @@ cgl_window_create(struct wcore_platform *wc_plat,
                   const intptr_t attrib_list[])
 {
     struct cgl_window *self;
-    bool ok = true;
 
     if (width == -1 && height == -1) {
         wcore_errorf(WAFFLE_ERROR_UNSUPPORTED_ON_PLATFORM,
@@ -112,9 +111,7 @@ cgl_window_create(struct wcore_platform *wc_plat,
     if (!self)
         return NULL;
 
-    ok = wcore_window_init(&self->wcore, wc_config);
-    if (!ok)
-        goto error;
+    wcore_window_init(&self->wcore, wc_config);
 
     self->gl_view = cgl_window_create_gl_view(width, height);
     if (!self->gl_view)

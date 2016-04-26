@@ -99,6 +99,8 @@ wayland_display_connect(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
+    wcore_display_init(&self->wegl.wcore, wc_plat);
+
     self->wl_display = wl_display_connect(name);
     if (!self->wl_display) {
         wcore_errorf(WAFFLE_ERROR_UNKNOWN, "wl_display_connect failed");

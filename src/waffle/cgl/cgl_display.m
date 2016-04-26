@@ -43,21 +43,14 @@ cgl_display_connect(struct wcore_platform *wc_plat,
                     const char *name)
 {
     struct cgl_display *self;
-    bool ok = true;
 
     self = wcore_calloc(sizeof(*self));
     if (!self)
         return NULL;
 
-    ok = wcore_display_init(&self->wcore, wc_plat);
-    if (!ok)
-        goto error;
+    wcore_display_init(&self->wcore, wc_plat);
 
     return &self->wcore;
-
-error:
-    cgl_display_destroy(&self->wcore);
-    return NULL;
 }
 
 bool

@@ -65,10 +65,6 @@ wegl_display_init(struct wegl_display *dpy,
     struct wegl_platform *plat = wegl_platform(wc_plat);
     bool ok;
 
-    ok = wcore_display_init(&dpy->wcore, wc_plat);
-    if (!ok)
-        goto fail;
-
     dpy->egl = plat->eglGetDisplay((EGLNativeDisplayType) native_display);
     if (!dpy->egl) {
         wegl_emit_error(plat, "eglGetDisplay");

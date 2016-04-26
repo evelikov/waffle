@@ -45,15 +45,9 @@ nacl_display_connect(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
-    ok = wcore_display_init(&self->wcore, wc_plat);
-    if (!ok)
-        goto error;
+    wcore_display_init(&self->wcore, wc_plat);
 
     return &self->wcore;
-
-error:
-    nacl_display_destroy(&self->wcore);
-    return NULL;
 }
 
 bool

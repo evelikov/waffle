@@ -232,7 +232,6 @@ wegl_config_choose(struct wcore_platform *wc_plat,
 {
     struct wegl_display *dpy = wegl_display(wc_dpy);
     struct wegl_config *config;
-    bool ok;
 
     (void) wc_plat;
 
@@ -240,9 +239,7 @@ wegl_config_choose(struct wcore_platform *wc_plat,
     if (!config)
         return NULL;
 
-    ok = wcore_config_init(&config->wcore, wc_dpy, attrs);
-    if (!ok)
-        goto fail;
+    wcore_config_init(&config->wcore, wc_dpy, attrs);
 
     if (!check_context_attrs(dpy, attrs))
         goto fail;

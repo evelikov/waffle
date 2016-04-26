@@ -200,23 +200,18 @@ wgl_context_create(struct wcore_platform *wc_plat,
     struct wgl_config *config = wgl_config(wc_config);
     struct wgl_context *share_ctx = wgl_context(wc_share_ctx);
     struct wgl_context *self;
-    int error;
 
     self = wcore_calloc(sizeof(*self));
     if (!self)
         return NULL;
 
-    error = !wcore_context_init(&self->wcore, wc_config);
-    if (error)
-        goto fail;
+    wcore_context_init(&self->wcore, wc_config);
 
     self->hglrc = wgl_context_create_native(config, share_ctx);
-    if (!self->hglrc)
-        goto fail;
+    if (!self->hglrc) {
+        wgl_context_destroy(&self->wcore);
+        return NULL;
+    }
 
     return &self->wcore;
-
-fail:
-    wgl_context_destroy(&self->wcore);
-    return NULL;
 }

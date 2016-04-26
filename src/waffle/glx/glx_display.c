@@ -90,9 +90,7 @@ glx_display_connect(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
-    ok = wcore_display_init(&self->wcore, wc_plat);
-    if (!ok)
-        goto error;
+    wcore_display_init(&self->wcore, wc_plat);
 
     ok = x11_display_init(&self->x11, name);
     if (!ok)

@@ -134,6 +134,8 @@ wgbm_platform_create(void)
     if (self == NULL)
         return NULL;
 
+    wcore_platform_init(&self->wegl.wcore);
+
     if (wgbm_platform_init(self))
         return &self->wegl.wcore;
 

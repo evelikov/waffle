@@ -47,7 +47,6 @@ nacl_window_create(struct wcore_platform *wc_plat,
 {
     struct nacl_window *self;
     struct nacl_platform *nplat = nacl_platform(wc_plat);
-    bool ok = true;
 
     if (width == -1 && height == -1) {
         wcore_errorf(WAFFLE_ERROR_UNSUPPORTED_ON_PLATFORM,
@@ -64,19 +63,15 @@ nacl_window_create(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
-    ok = wcore_window_init(&self->wcore, wc_config);
-    if (!ok)
-        goto error;
+    wcore_window_init(&self->wcore, wc_config);
 
     // Set requested dimensions for the backing surface.
-    if (!nacl_container_window_resize(nplat->nacl, width, height))
-         goto error;
+    if (!nacl_container_window_resize(nplat->nacl, width, height)) {
+        nacl_window_destroy(&self->wcore);
+        return NULL;
+    }
 
     return &self->wcore;
-
-error:
-    nacl_window_destroy(&self->wcore);
-    return NULL;
 }
 
 bool

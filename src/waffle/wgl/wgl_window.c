@@ -115,9 +115,7 @@ wgl_window_priv_create(struct wcore_platform *wc_plat,
     if (!self)
         return NULL;
 
-    ok = wcore_window_init(&self->wcore, wc_config);
-    if (!ok)
-        goto error;
+    wcore_window_init(&self->wcore, wc_config);
 
     rect.left = 0;
     rect.top = 0;

@@ -187,9 +187,7 @@ glx_config_choose(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
-    ok = wcore_config_init(&self->wcore, wc_dpy, attrs);
-    if (!ok)
-        goto error;
+    wcore_config_init(&self->wcore, wc_dpy, attrs);
 
     int attrib_list[] = {
         // From page 12 (18 of pdf) of the GLX 1.4 spec:

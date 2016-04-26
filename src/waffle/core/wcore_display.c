@@ -36,7 +36,7 @@ wcore_display_init_once(void)
     mtx_init(&mutex, mtx_plain);
 }
 
-bool
+void
 wcore_display_init(struct wcore_display *self,
                    struct wcore_platform *platform)
 {
@@ -57,6 +57,4 @@ wcore_display_init(struct wcore_display *self,
         fprintf(stderr, "waffle: error: internal counter wrapped to 0\n");
         abort();
     }
-
-    return true;
 }

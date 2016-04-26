@@ -72,23 +72,19 @@ glx_window_create(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
-    ok = wcore_window_init(&self->wcore, wc_config);
-    if (!ok)
-        goto error;
+    wcore_window_init(&self->wcore, wc_config);
 
     ok = x11_window_init(&self->x11,
                          &dpy->x11,
                          config->xcb_visual_id,
                          width,
                          height);
-    if (!ok)
-        goto error;
+    if (!ok) {
+        glx_window_destroy(&self->wcore);
+        return NULL;
+    }
 
     return &self->wcore;
-
-error:
-    glx_window_destroy(&self->wcore);
-    return NULL;
 }
 
 bool

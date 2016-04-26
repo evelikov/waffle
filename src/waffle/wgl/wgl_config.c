@@ -274,9 +274,7 @@ wgl_config_choose(struct wcore_platform *wc_plat,
     if (!self)
         return NULL;
 
-    ok = wcore_config_init(&self->wcore, wc_dpy, attrs);
-    if (!ok)
-        goto error;
+    wcore_config_init(&self->wcore, wc_dpy, attrs);
 
     wgl_config_set_pixeldescriptor(self, attrs);
 

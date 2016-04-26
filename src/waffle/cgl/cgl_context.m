@@ -60,9 +60,7 @@ cgl_context_create(struct wcore_platform *wc_plat,
     if (!self)
         return NULL;
 
-    error = !wcore_context_init(&self->wcore, wc_config);
-    if (error)
-        goto fail;
+    wcore_context_init(&self->wcore, wc_config);
 
     if (share_ctx)
         cgl_share_ctx = [share_ctx->ns CGLContextObj];

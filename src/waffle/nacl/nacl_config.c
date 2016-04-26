@@ -49,6 +49,8 @@ nacl_config_choose(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
+    wcore_config_init(&self->wcore, wc_dpy, attrs);
+
     // Currently only OpenGL ES 2.0 is supported.
     if (attrs->context_api != WAFFLE_CONTEXT_OPENGL_ES2) {
         wcore_errorf(WAFFLE_ERROR_UNSUPPORTED_ON_PLATFORM,
@@ -90,14 +92,9 @@ nacl_config_choose(struct wcore_platform *wc_plat,
 
 #undef PUSH_ATTRIB
 
-    ok = wcore_config_init(&self->wcore, wc_dpy, attrs);
-    if (!ok)
-        goto error;
-
     return &self->wcore;
 
 error:
     nacl_config_destroy(&self->wcore);
-    self = NULL;
     return NULL;
 }

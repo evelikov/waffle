@@ -233,7 +233,7 @@ cgl_config_choose(struct wcore_platform *wc_plat,
 {
     struct cgl_platform *plat = cgl_platform(wc_plat);
     struct cgl_config *self;
-    bool ok = true;
+    bool ok;
     int error = 0;
     int ignore;
     CGLPixelFormatAttribute pixel_attrs[64];
@@ -245,9 +245,7 @@ cgl_config_choose(struct wcore_platform *wc_plat,
     if (!self)
         return NULL;
 
-    ok = wcore_config_init(&self->wcore, wc_dpy, attrs);
-    if (!ok)
-        goto error;
+    wcore_config_init(&self->wcore, wc_dpy, attrs);
 
     ok = cgl_config_fill_pixel_format_attrs(plat, attrs, pixel_attrs);
     if (!ok)

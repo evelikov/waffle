@@ -46,6 +46,8 @@ droid_display_connect(struct wcore_platform *wc_plat,
     if (self == NULL)
         return NULL;
 
+    wcore_display_init(&self->wegl.wcore, wc_plat);
+
     self->pSFContainer = droid_init_gl();
 
     if (self->pSFContainer == NULL)

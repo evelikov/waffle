@@ -46,7 +46,7 @@ wcore_window(struct waffle_window *win) {
     return (struct wcore_window*) win;
 }
 
-static inline bool
+static inline void
 wcore_window_init(struct wcore_window *self,
                   struct wcore_config *config)
 {
@@ -55,6 +55,4 @@ wcore_window_init(struct wcore_window *self,
 
     self->api.display_id = config->display->api.display_id;
     self->display = config->display;
-
-    return true;
 }

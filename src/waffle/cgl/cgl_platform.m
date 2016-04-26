@@ -96,9 +96,7 @@ cgl_platform_create(void)
     if (!self)
         return NULL;
 
-    ok = wcore_platform_init(&self->wcore);
-    if (!ok)
-        goto error;
+    wcore_platform_init(&self->wcore);
 
     ok = cgl_platform_set_system_version(self);
     if (!ok)

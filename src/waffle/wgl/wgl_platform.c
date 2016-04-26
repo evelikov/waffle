@@ -96,21 +96,17 @@ wgl_platform_create(void)
     if (!self)
         return NULL;
 
-    ok = wcore_platform_init(&self->wcore);
-    if (!ok)
-        goto error;
+    wcore_platform_init(&self->wcore);
 
     ok = wgl_platform_register_class(wfl_class_name);
-    if (!ok)
-        goto error;
+    if (!ok) {
+        wgl_platform_destroy(&self->wcore);
+        return NULL;
+    }
     self->class_name = wfl_class_name;
 
     self->wcore.vtbl = &wgl_platform_vtbl;
     return &self->wcore;
-
-error:
-    wgl_platform_destroy(&self->wcore);
-    return NULL;
 }
 
 static bool

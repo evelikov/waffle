@@ -177,14 +177,21 @@ create_real_context(struct wegl_config *config,
     return ctx;
 }
 
-bool
-wegl_context_init(struct wegl_context *ctx,
-                  struct wcore_config *wc_config,
-                  struct wcore_context *wc_share_ctx)
+struct wcore_context*
+wegl_context_create(struct wcore_platform *wc_plat,
+                    struct wcore_config *wc_config,
+                    struct wcore_context *wc_share_ctx)
 {
+    struct wegl_context *ctx;
     struct wegl_config *config = wegl_config(wc_config);
     struct wegl_context *share_ctx = wegl_context(wc_share_ctx);
     bool ok;
+
+    (void) wc_plat;
+
+    ctx = wcore_calloc(sizeof(*ctx));
+    if (!ctx)
+        return NULL;
 
     ok = wcore_context_init(&ctx->wcore, &config->wcore);
     if (!ok)
@@ -197,54 +204,11 @@ wegl_context_init(struct wegl_context *ctx,
     if (ctx->egl == EGL_NO_CONTEXT)
         goto fail;
 
-    return true;
+    return &ctx->wcore;
 
 fail:
-    wegl_context_teardown(ctx);
-    return false;
-}
-
-struct wcore_context*
-wegl_context_create(struct wcore_platform *wc_plat,
-                    struct wcore_config *wc_config,
-                    struct wcore_context *wc_share_ctx)
-{
-    struct wegl_context *ctx;
-
-    (void) wc_plat;
-
-    ctx = wcore_calloc(sizeof(*ctx));
-    if (!ctx)
-        return NULL;
-
-    if (!wegl_context_init(ctx, wc_config, wc_share_ctx)) {
-        wegl_context_destroy(&ctx->wcore);
-        return NULL;
-    }
-
-    return &ctx->wcore;
-}
-
-bool
-wegl_context_teardown(struct wegl_context *ctx)
-{
-    bool result = true;
-
-    if (!ctx)
-        return result;
-
-    if (ctx->egl != EGL_NO_CONTEXT) {
-        struct wegl_display *dpy = wegl_display(ctx->wcore.display);
-        struct wegl_platform *plat = wegl_platform(dpy->wcore.platform);
-
-        if (!plat->eglDestroyContext(dpy->egl, ctx->egl)) {
-            wegl_emit_error(plat, "eglDestroyContext");
-            result = false;
-        }
-    }
-
-    result &= wcore_context_teardown(&ctx->wcore);
-    return result;
+    wegl_context_destroy(&ctx->wcore);
+    return NULL;
 }
 
 bool
@@ -254,7 +218,18 @@ wegl_context_destroy(struct wcore_context *wc_ctx)
 
     if (wc_ctx) {
         struct wegl_context *ctx = wegl_context(wc_ctx);
-        result = wegl_context_teardown(ctx);
+
+        if (ctx && ctx->egl != EGL_NO_CONTEXT) {
+            struct wegl_display *dpy = wegl_display(ctx->wcore.display);
+            struct wegl_platform *plat = wegl_platform(dpy->wcore.platform);
+
+            if (!plat->eglDestroyContext(dpy->egl, ctx->egl)) {
+                wegl_emit_error(plat, "eglDestroyContext");
+                result = false;
+            }
+        }
+
+        result &= wcore_context_teardown(&ctx->wcore);
         free(ctx);
     }
     return result;

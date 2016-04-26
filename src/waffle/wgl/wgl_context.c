@@ -39,15 +39,12 @@ bool
 wgl_context_destroy(struct wcore_context *wc_self)
 {
     struct wgl_context *self = wgl_context(wc_self);
-    bool ok = true;
-
-    if (!self)
-        return true;
+    bool ok;
 
     if (self->hglrc)
         ok &= wglDeleteContext(self->hglrc);
 
-    ok &= wcore_context_teardown(wc_self);
+    ok = wcore_context_teardown(wc_self);
     free(self);
     return ok;
 }

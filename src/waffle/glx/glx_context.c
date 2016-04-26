@@ -51,22 +51,15 @@
 bool
 glx_context_destroy(struct wcore_context *wc_self)
 {
-    struct glx_context *self;
-    struct glx_display *dpy;
-    struct glx_platform *platform;
-    bool ok = true;
-
-    if (!wc_self)
-        return ok;
-
-    self = glx_context(wc_self);
-    dpy = glx_display(wc_self->display);
-    platform = glx_platform(wc_self->display->platform);
+    struct glx_context *self = glx_context(wc_self);
+    struct glx_display *dpy = glx_display(wc_self->display);
+    struct glx_platform *platform = glx_platform(wc_self->display->platform);
+    bool ok;
 
     if (self->glx)
         wrapped_glXDestroyContext(platform, dpy->x11.xlib, self->glx);
 
-    ok &= wcore_context_teardown(wc_self);
+    ok = wcore_context_teardown(wc_self);
     free(self);
     return ok;
 }

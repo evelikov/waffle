@@ -214,23 +214,20 @@ fail:
 bool
 wegl_context_destroy(struct wcore_context *wc_ctx)
 {
+    struct wegl_context *ctx = wegl_context(wc_ctx);
     bool result = true;
 
-    if (wc_ctx) {
-        struct wegl_context *ctx = wegl_context(wc_ctx);
+    if (ctx->egl != EGL_NO_CONTEXT) {
+        struct wegl_display *dpy = wegl_display(ctx->wcore.display);
+        struct wegl_platform *plat = wegl_platform(dpy->wcore.platform);
 
-        if (ctx && ctx->egl != EGL_NO_CONTEXT) {
-            struct wegl_display *dpy = wegl_display(ctx->wcore.display);
-            struct wegl_platform *plat = wegl_platform(dpy->wcore.platform);
-
-            if (!plat->eglDestroyContext(dpy->egl, ctx->egl)) {
-                wegl_emit_error(plat, "eglDestroyContext");
-                result = false;
-            }
+        if (!plat->eglDestroyContext(dpy->egl, ctx->egl)) {
+            wegl_emit_error(plat, "eglDestroyContext");
+            result = false;
         }
-
-        result &= wcore_context_teardown(&ctx->wcore);
-        free(ctx);
     }
+
+    result &= wcore_context_teardown(&ctx->wcore);
+    free(ctx);
     return result;
 }

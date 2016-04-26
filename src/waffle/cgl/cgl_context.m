@@ -36,13 +36,10 @@ bool
 cgl_context_destroy(struct wcore_context *wc_self)
 {
     struct cgl_context *self = cgl_context(wc_self);
-    bool ok = true;
-
-    if (!self)
-        return ok;
+    bool ok;
 
     [self->ns release];
-    ok &= wcore_context_teardown(wc_self);
+    ok = wcore_context_teardown(wc_self);
     free(self);
     return ok;
 }

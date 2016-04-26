@@ -79,7 +79,6 @@ x11_window_init(struct x11_window *self,
     assert(self);
     assert(dpy);
 
-    bool ok = true;
     xcb_connection_t *conn = dpy->xcb;
 
     const xcb_setup_t *setup = xcb_get_setup(conn);
@@ -157,10 +156,9 @@ x11_window_init(struct x11_window *self,
 
     self->display = dpy;
     self->xcb = window;
-    goto end;
+    return true;
 
 error:
-    ok = false;
 
     if (colormap)
         xcb_free_colormap(conn, colormap);
@@ -168,8 +166,7 @@ error:
     if (window)
         xcb_destroy_window(conn, window);
 
-end:
-    return ok;
+    return false;
 }
 
 bool

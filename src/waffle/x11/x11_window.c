@@ -175,8 +175,6 @@ x11_window_teardown(struct x11_window *self)
     xcb_void_cookie_t cookie;
     xcb_generic_error_t *error;
 
-    assert(self);
-
     if (!self->xcb)
         return true;
 

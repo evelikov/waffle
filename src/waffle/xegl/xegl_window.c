@@ -42,12 +42,9 @@ bool
 xegl_window_destroy(struct wcore_window *wc_self)
 {
     struct xegl_window *self = xegl_window(wc_self);
-    bool ok = true;
+    bool ok;
 
-    if (!self)
-        return ok;
-
-    ok &= wegl_window_teardown(&self->wegl);
+    ok = wegl_window_teardown(&self->wegl);
     ok &= x11_window_teardown(&self->x11);
     free(self);
     return ok;

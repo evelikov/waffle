@@ -37,7 +37,6 @@ wgl_window_destroy(struct wcore_window *wc_self)
 {
     struct wgl_window *self = wgl_window(wc_self);
 
-    assert(self);
     assert(self->hWnd);
 
     self->created = false;
@@ -50,9 +49,6 @@ wgl_window_priv_destroy(struct wcore_window *wc_self)
 {
     struct wgl_window *self = wgl_window(wc_self);
     bool ok = true;
-
-    if (!self)
-        return true;
 
     if (self->hWnd) {
         if (self->hDC) {

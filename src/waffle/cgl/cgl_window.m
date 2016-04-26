@@ -36,10 +36,7 @@ bool
 cgl_window_destroy(struct wcore_window *wc_self)
 {
     struct cgl_window *self = cgl_window(wc_self);
-    bool ok = true;
-
-    if (!self)
-        return ok;
+    bool ok;
 
     if (self->gl_view)
         [self->gl_view release];
@@ -47,7 +44,7 @@ cgl_window_destroy(struct wcore_window *wc_self)
     if (self->ns_window)
         [self->ns_window release];
 
-    ok &= wcore_window_teardown(&self->wcore);
+    ok = wcore_window_teardown(&self->wcore);
     free(self);
     return ok;
 }

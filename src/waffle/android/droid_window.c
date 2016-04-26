@@ -85,15 +85,10 @@ bool
 droid_window_destroy(struct wcore_window *wc_self)
 {
     struct droid_window *self = droid_window(wc_self);
-    struct droid_display *dpy;
-    bool ok = true;
+    struct droid_display *dpy = droid_display(self->wegl.wcore.display);
+    bool ok;
 
-    if (!self)
-        return ok;
-
-    dpy = droid_display(self->wegl.wcore.display);
-
-    ok &= wegl_window_teardown(&self->wegl);
+    ok = wegl_window_teardown(&self->wegl);
     droid_destroy_surface(dpy->pSFContainer, self->pANWContainer);
     free(self);
     return ok;

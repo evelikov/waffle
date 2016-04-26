@@ -50,12 +50,9 @@ wayland_window_destroy(struct wcore_window *wc_self)
     struct wcore_platform *wc_plat = wc_self->display->platform;
     struct wayland_platform *plat = wayland_platform(wegl_platform(wc_plat));
     struct wayland_window *self = wayland_window(wc_self);
-    bool ok = true;
+    bool ok;
 
-    if (!self)
-        return ok;
-
-    ok &= wegl_window_teardown(&self->wegl);
+    ok = wegl_window_teardown(&self->wegl);
 
     if (self->wl_window)
         plat->wl_egl_window_destroy(self->wl_window);

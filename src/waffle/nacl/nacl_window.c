@@ -34,12 +34,9 @@ bool
 nacl_window_destroy(struct wcore_window *wc_self)
 {
     struct nacl_window *self = nacl_window(wc_self);
-    bool ok = true;
+    bool ok;
 
-    if (!wc_self)
-        return ok;
-
-    ok &= wcore_window_teardown(wc_self);
+    ok = wcore_window_teardown(wc_self);
     free(self);
     return ok;
 }

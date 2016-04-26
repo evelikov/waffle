@@ -33,11 +33,8 @@
 bool
 nacl_config_destroy(struct wcore_config *wc_self)
 {
-    bool ok;
-
-    ok = wcore_config_teardown(wc_self);
     free(nacl_config(wc_self));
-    return ok;
+    return true;
 }
 
 struct wcore_config*

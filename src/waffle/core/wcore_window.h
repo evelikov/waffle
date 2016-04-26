@@ -58,11 +58,3 @@ wcore_window_init(struct wcore_window *self,
 
     return true;
 }
-
-static inline bool
-wcore_window_teardown(struct wcore_window *self)
-{
-    (void) self;
-    assert(self);
-    return true;
-}

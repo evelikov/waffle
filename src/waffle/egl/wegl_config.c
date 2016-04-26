@@ -261,10 +261,6 @@ fail:
 bool
 wegl_config_destroy(struct wcore_config *wc_config)
 {
-    struct wegl_config *config = wegl_config(wc_config);
-    bool result;
-
-    result = wcore_config_teardown(wc_config);
-    free(config);
-    return result;
+    free(wegl_config(wc_config));
+    return true;
 }

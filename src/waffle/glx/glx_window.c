@@ -42,7 +42,6 @@ glx_window_destroy(struct wcore_window *wc_self)
     bool ok;
 
     ok = x11_window_teardown(&self->x11);
-    ok &= wcore_window_teardown(wc_self);
     free(self);
     return ok;
 }

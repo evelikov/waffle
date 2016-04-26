@@ -44,7 +44,6 @@ wgl_context_destroy(struct wcore_context *wc_self)
     if (self->hglrc)
         ok &= wglDeleteContext(self->hglrc);
 
-    ok = wcore_context_teardown(wc_self);
     free(self);
     return ok;
 }

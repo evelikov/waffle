@@ -46,14 +46,12 @@ bool
 cgl_config_destroy(struct wcore_config *wc_self)
 {
     struct cgl_config *self = cgl_config(wc_self);
-    bool ok;
 
     if (self->pixel_format)
         CGLReleasePixelFormat(self->pixel_format);
 
-    ok = wcore_config_teardown(wc_self);
     free(self);
-    return ok;
+    return true;
 }
 
 /// @brief Check the values of `attrs->context_*`.

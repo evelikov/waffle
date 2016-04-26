@@ -30,13 +30,8 @@
 bool
 nacl_display_destroy(struct wcore_display *wc_self)
 {
-    struct nacl_display *self = nacl_display(wc_self);
-    bool ok;
-
-    ok = wcore_display_teardown(&self->wcore);
-
-    free(self);
-    return ok;
+    free(nacl_display(wc_self));
+    return true;
 }
 
 struct wcore_display*

@@ -42,8 +42,6 @@ nacl_platform_destroy(struct wcore_platform *wc_self)
     struct nacl_platform *self = nacl_platform(wc_self);
     bool ok = true;
 
-    ok &= wcore_platform_teardown(wc_self);
-
     nacl_container_teardown(self->nacl);
 
     if (self->dl_gl)

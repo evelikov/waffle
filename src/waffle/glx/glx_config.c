@@ -40,11 +40,8 @@
 bool
 glx_config_destroy(struct wcore_config *wc_self)
 {
-    bool ok;
-
-    ok = wcore_config_teardown(wc_self);
     free(glx_config(wc_self));
-    return ok;
+    return true;
 }
 
 /// @brief Check the values of `attrs->context_*`.

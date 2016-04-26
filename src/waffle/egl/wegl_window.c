@@ -79,18 +79,15 @@ wegl_window_teardown(struct wegl_window *window)
 {
     struct wegl_display *dpy = wegl_display(window->wcore.display);
     struct wegl_platform *plat = wegl_platform(dpy->wcore.platform);
-    bool result = true;
+    bool ok = true;
 
     if (window->egl) {
-        bool ok = plat->eglDestroySurface(dpy->egl, window->egl);
-        if (!ok) {
+        ok = plat->eglDestroySurface(dpy->egl, window->egl);
+        if (!ok)
             wegl_emit_error(plat, "eglDestroySurface");
-            result = false;
-        }
     }
 
-    result &= wcore_window_teardown(&window->wcore);
-    return result;
+    return ok;
 }
 
 bool

@@ -33,13 +33,10 @@ nacl_context_destroy(struct wcore_context *wc_self)
 {
     struct nacl_context *self = nacl_context(wc_self);
     struct nacl_platform *plat = nacl_platform(wc_self->display->platform);
-    bool ok;
 
     nacl_container_context_fini(plat->nacl);
-
-    ok = wcore_context_teardown(wc_self);
     free(self);
-    return ok;
+    return true;
 }
 
 struct wcore_context*

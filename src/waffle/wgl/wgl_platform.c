@@ -51,7 +51,6 @@ wgl_platform_destroy(struct wcore_platform *wc_self)
     if (self->class_name)
         ok &= UnregisterClass(self->class_name, GetModuleHandle(NULL));
 
-    ok &= wcore_platform_teardown(wc_self);
     free(self);
     return ok;
 }

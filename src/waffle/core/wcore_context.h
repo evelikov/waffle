@@ -65,11 +65,3 @@ wcore_context_init(struct wcore_context *self,
 
     return true;
 }
-
-static inline bool
-wcore_context_teardown(struct wcore_context *self)
-{
-    (void) self;
-    assert(self);
-    return true;
-}

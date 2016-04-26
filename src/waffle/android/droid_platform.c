@@ -49,7 +49,6 @@ droid_platform_destroy(struct wcore_platform *wc_self)
     if (self->linux)
         ok &= linux_platform_destroy(self->linux);
 
-    ok &= wcore_platform_teardown(wc_self);
     free(self);
     return ok;
 }

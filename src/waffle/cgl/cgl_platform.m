@@ -45,7 +45,6 @@ cgl_platform_destroy(struct wcore_platform *wc_self)
     if (self->dl_gl)
         ok &= cgl_dl_close(&self->wcore);
 
-    ok &= wcore_platform_teardown(wc_self);
     free(self);
     return ok;
 }

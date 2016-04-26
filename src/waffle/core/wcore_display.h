@@ -61,14 +61,6 @@ wcore_display_init(struct wcore_display *self,
                    struct wcore_platform *platform);
 
 
-static inline bool
-wcore_display_teardown(struct wcore_display *self)
-{
-    (void) self;
-    assert(self);
-    return true;
-}
-
 #ifdef __cplusplus
 }
 #endif

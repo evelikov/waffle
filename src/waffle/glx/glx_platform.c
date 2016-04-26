@@ -61,7 +61,6 @@ glx_platform_destroy(struct wcore_platform *wc_self)
         }
     }
 
-    ok &= wcore_platform_teardown(wc_self);
     free(self);
     return ok;
 }

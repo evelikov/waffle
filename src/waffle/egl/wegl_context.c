@@ -227,7 +227,6 @@ wegl_context_destroy(struct wcore_context *wc_ctx)
         }
     }
 
-    result &= wcore_context_teardown(&ctx->wcore);
     free(ctx);
     return result;
 }

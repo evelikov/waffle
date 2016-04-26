@@ -148,11 +148,3 @@ wcore_platform_init(struct wcore_platform *self)
     assert(self);
     return true;
 }
-
-static inline bool
-wcore_platform_teardown(struct wcore_platform *self)
-{
-    (void) self;
-    assert(self);
-    return true;
-}

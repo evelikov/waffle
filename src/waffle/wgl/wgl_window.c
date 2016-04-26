@@ -57,7 +57,6 @@ wgl_window_priv_destroy(struct wcore_window *wc_self)
         ok &= DestroyWindow(self->hWnd);
     }
 
-    ok &= wcore_window_teardown(wc_self);
     free(self);
     return ok;
 }

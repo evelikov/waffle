@@ -51,7 +51,6 @@ wegl_platform_teardown(struct wegl_platform *self)
         }
     }
 
-    ok &= wcore_platform_teardown(&self->wcore);
     return ok;
 }
 bool

@@ -33,12 +33,8 @@
 bool
 cgl_display_destroy(struct wcore_display *wc_self)
 {
-    struct cgl_display *self = cgl_display(wc_self);
-    bool ok = true;
-
-    ok &= wcore_display_teardown(&self->wcore);
-    free(self);
-    return ok;
+    free(cgl_display(wc_self));
+    return true;
 }
 
 

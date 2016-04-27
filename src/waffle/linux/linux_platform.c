@@ -48,9 +48,6 @@ linux_platform_destroy(struct linux_platform *self)
 {
     bool ok = true;
 
-    if (!self)
-        return true;
-
     // FIXME: Waffle is unable to emit a sequence of errors.
     ok &= linux_dl_close(self->libgl);
     ok &= linux_dl_close(self->libgles1);

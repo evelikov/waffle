@@ -72,15 +72,14 @@ wayland_wrapper_teardown(void)
 bool
 wayland_wrapper_init(void)
 {
-    bool ok = true;
-
+    // On failure the caller of wayland_wrapper_init will trigger it's own
+    // destruction which will execute wayland_wrapper_teardown.
     dl_wl_client = dlopen(libwl_client_filename, RTLD_LAZY | RTLD_LOCAL);
     if (!dl_wl_client) {
         wcore_errorf(WAFFLE_ERROR_FATAL,
                      "dlopen(\"%s\") failed: %s",
                      libwl_client_filename, dlerror());
-        ok = false;
-        goto error;
+        return false;
     }
 
 #define RETRIEVE_WL_CLIENT_SYMBOL(S)                            \
@@ -89,8 +88,7 @@ wayland_wrapper_init(void)
         wcore_errorf(WAFFLE_ERROR_FATAL,                        \
                      "dlsym(\"%s\", \"" #S "\") failed: %s",    \
                      libwl_client_filename, dlerror());         \
-        ok = false;                                             \
-        goto error;                                             \
+        return false;                                           \
     }
 
     RETRIEVE_WL_CLIENT_SYMBOL(wl_compositor_interface);
@@ -108,8 +106,5 @@ wayland_wrapper_init(void)
     RETRIEVE_WL_CLIENT_SYMBOL(wl_proxy_marshal_constructor);
 #undef RETRIEVE_WL_CLIENT_SYMBOL
 
-error:
-    // On failure the caller of wayland_wrapper_init will trigger it's own
-    // destruction which will execute wayland_wrapper_teardown.
-    return ok;
+    return true;
 }

@@ -34,6 +34,10 @@
 #include "wegl_platform.h"
 #include "wegl_util.h"
 
+#ifndef EGL_CONTEXT_OPENGL_ROBUST_ACCESS
+#define EGL_CONTEXT_OPENGL_ROBUST_ACCESS  0x31B2
+#endif
+
 static bool
 bind_api(struct wegl_platform *plat, int32_t waffle_context_api)
 {

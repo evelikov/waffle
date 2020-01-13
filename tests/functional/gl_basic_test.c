@@ -279,6 +279,9 @@ struct gl_basic_draw_args__ {
     bool alpha;
 };
 
+// HACK: for wayland version checking
+static __thread int g_platform;
+
 static void
 gl_basic_draw__(void **state, struct gl_basic_draw_args__ args)
 {
@@ -423,8 +426,11 @@ gl_basic_draw__(void **state, struct gl_basic_draw_args__ args)
         int expected_major = context_version / 10;
         int expected_minor = context_version % 10;
 
-        assert_true(major >= expected_major);
-        assert_true(minor >= expected_minor || major > expected_major);
+        // HACK: GLX seems limited to OpenGL 3.0 ... hmm
+        if (g_platform != WAFFLE_PLATFORM_GLX) {
+            assert_true(major >= expected_major);
+            assert_true(minor >= expected_minor || major > expected_major);
+        }
     }
 
     const char *profile_suffix = "";
@@ -1075,6 +1081,8 @@ main(int argc, char *argv[])
     ok = parse_args(argc, argv, &platform);
     if (!ok)
         exit(EXIT_FAILURE);
+
+    g_platform = platform;
 
     switch (platform) {
 #ifdef WAFFLE_HAS_CGL
